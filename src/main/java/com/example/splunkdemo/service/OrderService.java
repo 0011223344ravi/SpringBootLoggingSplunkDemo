@@ -22,7 +22,7 @@ public class OrderService {
 
     public Order addOrder(Order order) {
         logger.info("OrderService:addOrder execution started..");
-        logger.info("OrderService:addOrder request payload {} ");
+        logger.info("OrderService:addOrder request payload {} ", Mapper.mapToJsonString(order));
         order.setOrderPlacedDate(new Date());
         order.setTransactionId(UUID.randomUUID().toString());
         orderList.add(order);
