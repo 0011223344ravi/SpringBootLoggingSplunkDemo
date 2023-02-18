@@ -1,6 +1,8 @@
 package com.example.splunkdemo;
 
+import com.example.splunkdemo.dto.JobStatus;
 import com.example.splunkdemo.dto.Order;
+import com.example.splunkdemo.service.JobService;
 import com.example.splunkdemo.service.OrderService;
 import com.example.splunkdemo.util.Mapper;
 import org.apache.logging.log4j.LogManager;
@@ -21,6 +23,9 @@ public class SplunkDemoApplication {
 
 	@Autowired
 	private OrderService service;
+
+	@Autowired
+	private JobService jobService;
 
 	@PostMapping
 	public Order placeOrder(@RequestBody Order order) {
@@ -43,6 +48,15 @@ public class SplunkDemoApplication {
 		Order order = service.getOrder(id);
 		logger.info("OrderController:getOrder fetch order response {}", Mapper.mapToJsonString(order));
 		return order;
+	}
+
+
+	@PostMapping("/job")
+	public JobStatus processOrder(@RequestBody Order order) {
+		logger.info("OrderController:processOrder  order request {}", Mapper.mapToJsonString(order));
+		JobStatus jobStatus = jobService.process(order);
+		logger.info("current job status {}", jobStatus);
+		return jobStatus;
 	}
 
 
